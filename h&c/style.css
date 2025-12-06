@@ -1,14 +1,14 @@
 :root {
     /* --- Base Colors --- */
-    --bg-color: #f5f2e8;        /* Warm Beige / Paper */
-    --card-bg: #ffffff;         /* White */
+    --bg-color: #f5f2e8;       /* Warm Beige */
+    --card-bg: #ffffff;        /* White */
     
     /* --- Typography --- */
-    --primary-text: #2c2a25;    /* Dark Charcoal */
-    --secondary-text: #5e5b52;  /* Warm Grey */
+    --primary-text: #2c2a25;   /* Dark Charcoal */
+    --secondary-text: #5e5b52; /* Warm Grey */
     
     /* --- Accent --- */
-    --accent-color: #3f6212;    /* Olive / Forest Green */
+    --accent-color: #3f6212;   /* Olive / Forest Green */
     --accent-light: rgba(63, 98, 18, 0.1);
     
     /* --- Structural --- */
@@ -17,9 +17,10 @@
     --header-height: 80px;
     --transition: all 0.25s ease-in-out;
 }
+
 html {
     scroll-behavior: smooth;
-    font-size: 100%; /* Base size */
+    font-size: 100%;
 }
 
 *, *::before, *::after {
@@ -33,7 +34,8 @@ body {
     background-color: var(--bg-color);
     color: var(--primary-text);
     line-height: 1.6;
-    padding-top: var(--header-height); /* Prevent content from hiding behind fixed header */
+    padding-top: var(--header-height);
+    overflow-x: hidden; /* Prevent horizontal scroll on mobile */
 }
 
 a {
@@ -64,6 +66,30 @@ ul {
 
 .highlight {
     color: var(--accent-color);
+}
+
+.sr-only {
+    /* Accessible way to hide text visually but keep it for screen readers */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+/* --- ANIMATION CLASSES --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* --- HEADER & NAV --- */
@@ -103,10 +129,29 @@ ul {
     font-size: 0.95rem;
     color: var(--secondary-text);
     font-weight: 500;
+    position: relative;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
     color: var(--accent-color);
+}
+
+/* Underline animation for links */
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--accent-color);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+    width: 100%;
 }
 
 .btn-resume {
@@ -121,56 +166,78 @@ ul {
     background-color: var(--accent-light);
 }
 
-/* --- MOBILE MENU (PURE CSS "CHECKBOX HACK") --- */
-.nav-toggle {
+.btn-resume::after {
+    display: none; /* No underline for button */
+}
+
+/* --- MOBILE MENU BUTTON --- */
+.mobile-nav-toggle {
     display: none;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    padding: 1rem;
+    z-index: 9999;
 }
 
 @media (max-width: 768px) {
-    .nav-toggle-label {
+    .mobile-nav-toggle {
         display: block;
-        cursor: pointer;
-        padding: 1rem;
     }
 
-    .nav-toggle-label span,
-    .nav-toggle-label span::before,
-    .nav-toggle-label span::after {
-        display: block;
-        background: var(--accent-color);
-        height: 2px;
+    /* Hamburger Line */
+    .hamburger-icon {
         width: 1.5rem;
-        border-radius: 2px;
+        height: 2px;
+        background: var(--accent-color);
         position: relative;
+        transition: background 0.2s;
     }
 
-    .nav-toggle-label span::before,
-    .nav-toggle-label span::after {
+    .hamburger-icon::before,
+    .hamburger-icon::after {
         content: '';
         position: absolute;
-    }
-
-    .nav-toggle-label span::before { bottom: 6px; }
-    .nav-toggle-label span::after { top: 6px; }
-
-    .nav-links {
-        position: absolute;
-        top: 100%;
+        width: 1.5rem;
+        height: 2px;
+        background: var(--accent-color);
         left: 0;
-        background: var(--bg-color);
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem;
-        border-bottom: 1px solid rgba(0,0,0,0.1);
-        transform: scaleY(0); /* Hidden by default */
-        transform-origin: top;
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s ease;
     }
 
-    /* When checkbox is checked, show menu */
-    .nav-toggle:checked ~ .nav-links {
-        transform: scaleY(1);
+    .hamburger-icon::before { top: -6px; }
+    .hamburger-icon::after { top: 6px; }
+
+    /* Button Open State */
+    .mobile-nav-toggle[aria-expanded="true"] .hamburger-icon {
+        background: transparent;
+    }
+
+    .mobile-nav-toggle[aria-expanded="true"] .hamburger-icon::before {
+        top: 0;
+        transform: rotate(45deg);
+    }
+
+    .mobile-nav-toggle[aria-expanded="true"] .hamburger-icon::after {
+        top: 0;
+        transform: rotate(-45deg);
+    }
+
+    /* Mobile Nav Drawer */
+    .nav-links {
+        position: fixed;
+        inset: 0 0 0 30%; /* slide out from right, covering 70% width */
+        background: var(--bg-color);
+        flex-direction: column;
+        padding: min(20vh, 10rem) 2rem;
+        transform: translateX(100%);
+        transition: transform 0.35s ease-in-out;
+        z-index: 1000;
+        box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    }
+
+    .nav-links[data-visible="true"] {
+        transform: translateX(0%);
     }
 }
 
@@ -188,7 +255,7 @@ ul {
 }
 
 .hero-title {
-    font-size: clamp(2.5rem, 5vw, 4.5rem); /* Fluid Typography */
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 0.5rem;
@@ -216,12 +283,12 @@ ul {
     padding: 1rem 2rem;
     border-radius: 4px;
     font-weight: 600;
-    box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+    box-shadow: 0 4px 14px 0 rgba(63, 98, 18, 0.39);
 }
 
 .btn-cta:hover, .btn-cta:focus {
     transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.23);
+    box-shadow: 0 6px 20px rgba(63, 98, 18, 0.23);
     outline: none;
 }
 

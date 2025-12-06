@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abhishek Sirugudu | Portfolio</title>
-    <meta name="description" content="Portfolio of Abhishek Sirugudu, a Full Stack Java Developer and AI Engineer.">
+    <meta name="description" content="Portfolio of Abhishek Sirugudu, a Computer Science graduate specializing in AI/ML and Java Full Stack Development.">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -12,25 +12,25 @@
 
     <header class="site-header">
         <nav class="navbar container" aria-label="Main Navigation">
-            <a href="#" class="logo" aria-label="Abhishek Sirugudu Home">AS</a> 
+            <a href="#hero" class="logo" aria-label="Abhishek Sirugudu Home">AS</a> 
             
-            <input type="checkbox" id="nav-toggle" class="nav-toggle">
-            <label for="nav-toggle" class="nav-toggle-label" aria-label="Toggle Navigation">
-                <span></span>
-            </label>
+            <button class="mobile-nav-toggle" aria-controls="primary-navigation" aria-expanded="false">
+                <span class="sr-only">Menu</span>
+                <div class="hamburger-icon" aria-hidden="true"></div>
+            </button>
 
-            <ul class="nav-links">
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="#" class="btn-resume">Resume</a></li>
+            <ul id="primary-navigation" class="nav-links">
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="Resume_Abhishek.pdf" target="_blank" class="btn-resume">Resume</a></li>
             </ul>
         </nav>
     </header>
 
     <main>
-        <section id="hero" class="hero-section container">
+        <section id="hero" class="hero-section container reveal">
             <div class="hero-content">
                 <p class="hero-pre">Hi, my name is</p>
                 <h1 class="hero-title">Sirugudu Abhishek.</h1>
@@ -44,7 +44,7 @@
             </div>
         </section>
 
-        <section id="about" class="section-padding container">
+        <section id="about" class="section-padding container reveal">
             <h3 class="section-title"><span class="highlight">01.</span> About Me</h3>
             <div class="about-content">
                 <div class="about-text">
@@ -71,7 +71,7 @@
             </div>
         </section>
 
-        <section id="skills" class="section-padding container">
+        <section id="skills" class="section-padding container reveal">
             <h3 class="section-title"><span class="highlight">02.</span> Technical Skills</h3>
             
             <div class="grid-3-col">
@@ -90,7 +90,7 @@
                     <ul class="list-styled">
                         <li>Java (Backend Logic)</li>
                         <li>HTML5 & CSS3</li>
-                        <li>JavaScript</li>
+                        <li>JavaScript (ES6+)</li>
                         <li>Streamlit</li>
                     </ul>
                 </article>
@@ -107,7 +107,7 @@
             </div>
         </section>
 
-        <section id="projects" class="section-padding container">
+        <section id="projects" class="section-padding container reveal">
             <h3 class="section-title"><span class="highlight">03.</span> Things I've Built</h3>
             
             <div class="grid-auto-fit">
@@ -153,7 +153,7 @@
                     </div>
                     <h4 class="project-title">Student School Store</h4>
                     <p class="project-desc">
-                        Led a 4-member team to build a front-end e-commerce platform for school supplies. 
+                        Led a 4-member team to build a front-end e-commerce platform. 
                         Implemented cart functionality, product layouts, and order summaries.
                     </p>
                     <div class="tags-list">
@@ -181,7 +181,7 @@
             </div>
         </section>
 
-        <section id="contact" class="section-padding container text-center">
+        <section id="contact" class="section-padding container text-center reveal">
             <div class="contact-wrapper">
                 <p class="hero-pre">04. What's Next?</p>
                 <h2 class="contact-title">Get In Touch</h2>
@@ -200,5 +200,6 @@
         <p class="footer-details">+91-8919163939 | <a href="https://linkedin.com/in/abhisheks39" target="_blank" rel="noopener noreferrer">linkedin.com/in/abhisheks39</a></p>
     </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
